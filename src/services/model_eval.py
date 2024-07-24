@@ -2,10 +2,10 @@ from spacy.scorer import Scorer
 from spacy.training import Example
 from spacy import displacy
 from spacy.tokens import Span
-from nlp_pipeline.config.colon import displacy_configs
+from config.colon import displacy_configs
 import random
 import pandas as pd
-from nlp_pipeline.services import file_proc
+from services import file_proc
 
 import numpy as np
 import matplotlib.pyplot as plt

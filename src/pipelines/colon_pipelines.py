@@ -2,17 +2,17 @@ from spacy.tokens import Doc, Span, Token
 from spacy import displacy
 import re
 
-from nlp_pipeline.services import prop_getters
-from nlp_pipeline.components import (
+from services import prop_getters
+from components import (
     colo_keyword_filter,
     report_section_filter,
     false_pos_filter,
     lesion_property_extractor,
     colo_qi_extractor
 )
-from nlp_pipeline.classes.report import ColReport, PathReport
-from nlp_pipeline.config.colon import displacy_configs, col_patterns, path_patterns
-from nlp_pipeline.nlp_models import en_trained_sections_col, en_trained_sections_path
+from classes.report import ColReport, PathReport
+from config.colon import displacy_configs, col_patterns, path_patterns
+from nlp_models import en_trained_sections_col, en_trained_sections_path
 
 # SET SPACY EXTENSIONS
 # Doc extensions

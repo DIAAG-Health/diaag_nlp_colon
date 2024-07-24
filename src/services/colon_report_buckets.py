@@ -1,5 +1,5 @@
-from nlp_pipeline.classes.report import ColReport, PathReport
-from nlp_pipeline.pipelines import colon_pipelines
+from classes.report import ColReport, PathReport
+from pipelines import colon_pipelines
 import copy
 
 

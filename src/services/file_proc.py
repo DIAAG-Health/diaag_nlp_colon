@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from nlp_pipeline.config.colon import brat_label_configs
+from config.colon import brat_label_configs
 
 
 # Functions to handle file processing

@@ -1,11 +1,11 @@
 # Custom component to extract values from polyp entities and add to doc data
 import re
 from spacy.language import Language
-from nlp_pipeline.components import false_pos_filter
-from nlp_pipeline.config.num_words import num_words
-from nlp_pipeline.config.colon import vocab
-from nlp_pipeline.config.prostate import prostate_vocab, prostate_path_vocab
-from nlp_pipeline.config.breast import breast_vocab
+from components import false_pos_filter
+from config.num_words import num_words
+from config.colon import vocab
+from config.prostate import prostate_vocab, prostate_path_vocab
+from config.breast import breast_vocab
 
 # region colon polyp extractors
 

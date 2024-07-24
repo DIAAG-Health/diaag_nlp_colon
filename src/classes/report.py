@@ -1,6 +1,6 @@
 import re
-from nlp_pipeline.classes.representations import AsDictMixin
-from nlp_pipeline.config.colon import vocab
+from classes.representations import AsDictMixin
+from config.colon import vocab
 
 
 class Report:

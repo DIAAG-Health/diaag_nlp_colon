@@ -1,6 +1,6 @@
-from nlp_pipeline.config.colon import vocab
-from nlp_pipeline.components import report_section_filter
-from nlp_pipeline.services import prop_getters
+from config.colon import vocab
+from components import report_section_filter
+from services import prop_getters
 from spacy.language import Language
 import re
 

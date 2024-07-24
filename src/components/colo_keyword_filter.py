@@ -1,5 +1,5 @@
 import re
-from nlp_pipeline.config.colon import vocab
+from config.colon import vocab
 from spacy.language import Language
 
 
