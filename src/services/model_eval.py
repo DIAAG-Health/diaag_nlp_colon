@@ -391,7 +391,7 @@ def spacy_evaluate_ner(nlp, test_set):
 
 def render_results(proc_reports, report_type):
     options = displacy_configs.DISPLACY_RENDER_OPTIONS[report_type]
-    # pick random sample of docs to display
+    # pick random sample of documentation to display
     # displacy_sample = random.sample(proc_reports, 20)
     displacy.serve(proc_reports, style='ent', host='localhost', port=5000, options=options)
 
