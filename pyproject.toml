@@ -2,8 +2,8 @@
 name = "diaag-nlp-colon"
 version = "1.1.0"
 authors = [
-    { name="Emma Peterson" },
     { name="Gordon Guyant", email="flashgordonion@gmail.com" },
+    { name="Emma Peterson" }
 ]
 description = "A package for extracting information from Colonoscopy and Colon Pathology reports using Spacy"
 readme = "README.md"
@@ -13,6 +13,10 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
 [project.urls]
 Homepage = "https://github.com/DIAAG-Health/diaag-nlp-colon"
