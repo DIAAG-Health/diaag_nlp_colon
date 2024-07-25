@@ -1,15 +1,10 @@
 from spacy.scorer import Scorer
 from spacy.training import Example
 from spacy import displacy
-from spacy.tokens import Span
 from config.colon import displacy_configs
 import random
 import pandas as pd
 from services import file_proc
-
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 # TODO: move classes to separate file

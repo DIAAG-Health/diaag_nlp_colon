@@ -1,6 +1,5 @@
 from classes.report import ColReport, PathReport
 from pipelines import colon_pipelines
-import copy
 
 
 # returns ColReport with updated candidate buckets

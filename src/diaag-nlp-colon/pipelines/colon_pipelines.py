@@ -3,13 +3,6 @@ from spacy import displacy
 import re
 
 from services import prop_getters
-from components import (
-    colo_keyword_filter,
-    report_section_filter,
-    false_pos_filter,
-    lesion_property_extractor,
-    colo_qi_extractor
-)
 from classes.report import ColReport, PathReport
 from config.colon import displacy_configs, col_patterns, path_patterns
 from nlp_models import en_trained_sections_col, en_trained_sections_path
