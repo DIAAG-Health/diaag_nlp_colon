@@ -1,10 +1,10 @@
 from spacy.scorer import Scorer
 from spacy.training import Example
 from spacy import displacy
-from config.colon import displacy_configs
+from diaag_nlp_colon.config.colon import displacy_configs
 import random
 import pandas as pd
-from services import file_proc
+from diaag_nlp_colon.services import file_proc
 
 
 # TODO: move classes to separate file

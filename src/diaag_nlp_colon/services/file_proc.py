@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from config.colon import brat_label_configs
+from diaag_nlp_colon.config.colon import brat_label_configs
 
 
 # Functions to handle file processing

@@ -1,5 +1,5 @@
 [project]
-name = "diaag-nlp-colon"
+name = "diaag_nlp_colon"
 version = "1.1.0"
 authors = [
     { name="Gordon Guyant", email="flashgordonion@gmail.com" },
@@ -13,10 +13,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
 
 [project.urls]
 Homepage = "https://github.com/DIAAG-Health/diaag-nlp-colon"

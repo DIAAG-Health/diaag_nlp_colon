@@ -2,10 +2,10 @@ from spacy.tokens import Doc, Span, Token
 from spacy import displacy
 import re
 
-from services import prop_getters
-from classes.report import ColReport, PathReport
-from config.colon import displacy_configs, col_patterns, path_patterns
-from nlp_models import en_trained_sections_col, en_trained_sections_path
+from diaag_nlp_colon.services import prop_getters
+from diaag_nlp_colon.classes.report import ColReport, PathReport
+from diaag_nlp_colon.config.colon import displacy_configs, col_patterns, path_patterns
+from diaag_nlp_colon.nlp_models import en_trained_sections_col, en_trained_sections_path
 
 # SET SPACY EXTENSIONS
 # Doc extensions

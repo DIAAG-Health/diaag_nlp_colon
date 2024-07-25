@@ -1,6 +1,6 @@
-from config.colon import vocab
-from components import report_section_filter
-from services import prop_getters
+from diaag_nlp_colon.config.colon import vocab
+from diaag_nlp_colon.components import report_section_filter
+from diaag_nlp_colon.services import prop_getters
 from spacy.language import Language
 import re
 

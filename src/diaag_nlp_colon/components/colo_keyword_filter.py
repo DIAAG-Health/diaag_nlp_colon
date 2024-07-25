@@ -1,5 +1,5 @@
 import re
-from config.colon import vocab
+from diaag_nlp_colon.config.colon import vocab
 from spacy.language import Language
 
 

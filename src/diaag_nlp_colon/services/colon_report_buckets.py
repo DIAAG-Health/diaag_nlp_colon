@@ -1,5 +1,5 @@
-from classes.report import ColReport, PathReport
-from pipelines import colon_pipelines
+from diaag_nlp_colon.classes.report import ColReport, PathReport
+from diaag_nlp_colon.pipelines import colon_pipelines
 
 
 # returns ColReport with updated candidate buckets

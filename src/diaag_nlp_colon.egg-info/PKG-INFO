@@ -1,5 +1,5 @@
 Metadata-Version: 2.1
-Name: diaag-nlp-colon
+Name: diaag_nlp_colon
 Version: 1.1.0
 Summary: A package for extracting information from Colonoscopy and Colon Pathology reports using Spacy
 Author: Emma Peterson

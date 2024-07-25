@@ -1,6 +1,6 @@
 import re
-from classes.representations import AsDictMixin
-from config.colon import vocab
+from diaag_nlp_colon.classes.representations import AsDictMixin
+from diaag_nlp_colon.config.colon import vocab
 
 
 class Report:

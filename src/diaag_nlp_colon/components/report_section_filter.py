@@ -1,4 +1,4 @@
-from components import false_pos_filter
+from diaag_nlp_colon.components import false_pos_filter
 from spacy.language import Language
 
 # Component to process Docs according to section headers in report text
