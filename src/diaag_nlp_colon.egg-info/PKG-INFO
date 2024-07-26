@@ -1,0 +1,28 @@
+Metadata-Version: 2.1
+Name: diaag_nlp_colon
+Version: 1.1.0
+Summary: A package for extracting information from Colonoscopy and Colon Pathology reports using Spacy
+Author: Emma Peterson
+Author-email: Gordon Guyant <flashgordonion@gmail.com>
+Project-URL: Homepage, https://github.com/DIAAG-Health/diaag-nlp-colon
+Project-URL: Issues, https://github.com/DIAAG-Health/diaag-nlp-colon/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# Diaag NLP Colon
+
+This package uses **Natural Language Processing** techniques
+to extract and serve data from raw clinical report text for colon procedures and associated pathology reports.
+
+### Documentation
+              
+**[Dev Notes]**     - Helpful notes for developer       
+**[Design Notes]**  - General project notes            
+
+[Dev Notes]: documentation/DevNotes.md
+[Design Notes]: documentation/DesignNotes.md
+

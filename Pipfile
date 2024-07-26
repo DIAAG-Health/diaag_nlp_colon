@@ -1,0 +1,12 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pytest = "~=7.1"
+spacy = "~=3.5"
+build = "*"
+
+[dev-packages]
+pipenv = "*"
