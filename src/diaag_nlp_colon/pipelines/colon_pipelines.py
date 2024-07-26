@@ -6,6 +6,13 @@ from diaag_nlp_colon.services import prop_getters
 from diaag_nlp_colon.classes.report import ColReport, PathReport
 from diaag_nlp_colon.config.colon import displacy_configs, col_patterns, path_patterns
 from diaag_nlp_colon.nlp_models import en_trained_sections_col, en_trained_sections_path
+from diaag_nlp_colon.components import (  # These imports are needed to register the extensions below
+    colo_keyword_filter,
+    report_section_filter,
+    false_pos_filter,
+    lesion_property_extractor,
+    colo_qi_extractor
+)
 
 # SET SPACY EXTENSIONS
 # Doc extensions

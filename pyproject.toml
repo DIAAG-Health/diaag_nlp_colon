@@ -17,3 +17,6 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/DIAAG-Health/diaag-nlp-colon"
 Issues = "https://github.com/DIAAG-Health/diaag-nlp-colon/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
