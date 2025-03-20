@@ -31,7 +31,8 @@ class ColReport(Report, AsDictMixin):
             'poor_prep': False,
             'incomplete_proc': False,
             'many_polyps': False,
-            'retained_polyp': False
+            'retained_polyp': False,
+            'polyp_removed_piecemeal': False,
         }
         self.col_related = col_related
         self.indications_text = indications_text
