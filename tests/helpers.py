@@ -99,6 +99,11 @@ def has_retained_polyp(doc):
     return retained_ent or retained_polyp
 
 
+def has_removed_piecemeal(doc):
+    has_piecemeal = any([ent.label_ == "REMOVED_PIECEMEAL" for ent in doc.ents])
+    return has_piecemeal
+
+
 # Get preparation quality from entity
 def check_prep_quality(prep_span):
     # quality of the preparation was ___

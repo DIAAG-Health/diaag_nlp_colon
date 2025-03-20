@@ -99,6 +99,10 @@ metrics_patterns = [
         "label": "INCOMPLETE_PROC",
         "pattern": [{"LOWER": "cecum"}, {"LOWER": "could"}, {"LOWER": "not"}, {"LOWER": "be"}, {"LOWER": "reached"}]
     },
+    {
+        "label": "REMOVED_PIECEMEAL",
+        "pattern": [{"LOWER": "piecemeal"}]
+    },
     {"label": "RETAINED_POLYP",
      "pattern": [{"LOWER": "unable"}, {"LOWER": "to"}, {"LOWER": "remove"}]},
     {"label": "RETAINED_POLYP",
@@ -413,6 +417,10 @@ class TestRetainedPolyp:
     def test_retained_polyp(self, report, doc, ents, expected):
         assert expected in ents
         assert has_retained_polyp(doc) == True
+
+
+class TestRemovedPiecemeal:
+    pass
 
 
 class TestProcedureType:

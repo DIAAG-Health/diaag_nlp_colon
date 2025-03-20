@@ -21,6 +21,7 @@ Doc.set_extension('has_large_polyp', default=False)
 Doc.set_extension('has_poor_prep', default=False)
 Doc.set_extension('has_incomplete_proc', default=False)
 Doc.set_extension('has_retained_polyp', default=False)
+Doc.set_extension('has_removed_piecemeal', default=False)
 Doc.set_extension('section_headers', getter=prop_getters.get_section_headers)
 Doc.set_extension('section_header_list', getter=prop_getters.get_section_header_list)
 Doc.set_extension('has_props', getter=prop_getters.has_props)
@@ -127,6 +128,7 @@ def col_pipeline(report_text, to_html=False):
     report.review_flags['incomplete_proc'] = doc._.has_incomplete_proc
     report.review_flags['poor_prep'] = doc._.has_poor_prep
     report.review_flags['retained_polyp'] = prop_getters.has_retained_polyp(doc)
+    report.review_flags['polyp_removed_piecemeal'] = prop_getters.has_removed_piecemeal(doc)
     if total_indiv_polyps > 10:
         report.review_flags['many_polyps'] = True
 

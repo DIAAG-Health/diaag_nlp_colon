@@ -51,6 +51,11 @@ def has_incomplete_proc(doc):
     return any([ent.label_  == 'INCOMPLETE_PROC' for ent in doc.ents])
 
 
+# returns True if report mentions piecemeal removal
+def has_removed_piecemeal(doc):
+    return any([ent.label_ == "REMOVED_PIECEMEAL" for ent in doc.ents])
+
+
 # returns True if any PREP_QUALITY entity indicates poor or inadequate preparation for exam
 def has_poor_prep(doc):
     for ent in doc.ents:

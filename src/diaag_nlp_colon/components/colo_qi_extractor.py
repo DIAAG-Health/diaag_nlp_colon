@@ -153,7 +153,7 @@ def set_review_flags(doc):
     # Flag incomplete procedure if negative pattern match
     incomplete_proc = prop_getters.has_incomplete_proc(doc)
     doc._.set('has_incomplete_proc', incomplete_proc)
-
+    doc._.set('has_removed_piecemeal', prop_getters.has_removed_piecemeal(doc))
     return doc
 
 
