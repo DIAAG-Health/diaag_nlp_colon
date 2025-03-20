@@ -133,6 +133,10 @@ metrics_patterns = [
         "id": "incomplete_proc_cecum"
     },
     {
+        "label": "REMOVED_PIECEMEAL",
+        "pattern": [{"LOWER": "piecemeal"}]
+    },
+    {
         "label": "RETAINED_POLYP",
         "pattern": [{"LOWER": "not"}, {"LOWER": {"IN": ["removed", "retrieved"]}}],
         "id": "retained_polyp_prop"

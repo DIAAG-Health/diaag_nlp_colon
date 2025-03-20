@@ -167,6 +167,7 @@ def extract_relevant_sections_col(doc):
         section_doc._.set('has_poor_prep', doc._.has_poor_prep)
         section_doc._.set('has_incomplete_proc', doc._.has_incomplete_proc)
         section_doc._.set('has_retained_polyp', doc._.has_retained_polyp)
+        section_doc._.set('has_removed_piecemeal', doc._.has_removed_piecemeal)
 
     except ZeroDivisionError:
         print('Could not make section doc')
