@@ -1,2 +1,4 @@
 .idea
 /local_tests
+__pycache__/
+*.pyc

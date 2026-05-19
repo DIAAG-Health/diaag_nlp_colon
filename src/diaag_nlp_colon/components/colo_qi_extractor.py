@@ -3,7 +3,18 @@ from diaag_nlp_colon.components import report_section_filter
 from diaag_nlp_colon.services import prop_getters
 from spacy.language import Language
 import re
+# import logging
+# logging.basicConfig(level=logging.INFO)
 
+# mypkg/pipelines/colon_pipelines.py
+# import logging
+# logger = logging.getLogger(__name__)  # e.g., 'mypkg.pipelines.colon_pipelines'
+
+
+# (Optional, good practice for libraries)
+# Avoid "No handler found" warnings for users who didn't configure logging:
+# logging.getLogger(__name__).addHandler(logging.NullHandler())
+# 
 # Component to extract colonoscopy quality indicator variables
 
 
@@ -18,6 +29,16 @@ def extract_prep_quality(doc):
     prep_quality_list = []
     worst_prep = None
     best_prep = None
+    ## initialize both variables as false such that the default assumption is prep is good, 
+    # following code will check if there are any conditions that would say the prep is bad and change these variables
+    text_prep_bad = False
+    bbps_bad = False
+   
+    extracted_props = doc.user_data.get('extracted_props', {})
+    bbps_left = extracted_props.get('bbps_left')
+    bbps_right = extracted_props.get('bbps_right')
+    bbps_transverse = extracted_props.get('bbps_transverse')
+
     # Check for recorded quality of preparation or views
     for ent in doc.ents:
         if ent.label_ == 'PREP_QUALITY':
@@ -25,17 +46,52 @@ def extract_prep_quality(doc):
                 if token.lower_ in vocab.COL_PREP_QUALITY:
                     prep_quality_list.append(token.lower_)
                     worst_prep, best_prep = check_prep_quality(token.lower_, worst_prep, best_prep)
+    text_prep_bad = (
+    (best_prep is not None and best_prep not in vocab.COL_ADEQUATE_PREP) or
+    (worst_prep is not None and worst_prep not in vocab.COL_ADEQUATE_PREP)
+)
+    bbps_complete = (
+                bbps_left is not None and
+                bbps_right is not None and
+                bbps_transverse is not None
+            )
+    
 
-    # Only use "visualization" report section if there are no other options
-    if len(prep_quality_list) == 0:
-        extracted_props = doc.user_data.get('extracted_props', {})
-        vis_text = extracted_props.get('vis_text')
-        if vis_text and vis_text in vocab.COL_PREP_QUALITY:
-            prep_quality_list.append(vis_text.lower())
-            worst_prep, best_prep = check_prep_quality(vis_text.lower(), worst_prep, best_prep)
+    bbps_bad = (
+        bbps_complete and
+        (
+            bbps_left < 2 or
+            bbps_right < 2 or
+            bbps_transverse < 2
+        )
+    )
+    if text_prep_bad or bbps_bad:
+        adequate_prep = False
+    else:
+        adequate_prep = True
+    ## Previous logic
+    # print("adequate_prep", adequate_prep)
+    # print("worst_prep:", worst_prep)
+    # print("best prep:", best_prep)
+    # REMOVED because the VISUALIZATION section in report is never changed and will always be true.
+    # Only use "visualization" report section if there are no other options 
+    # if len(prep_quality_list) == 0:
+    #     print("Prep list empty")
+    #     extracted_props = doc.user_data.get('extracted_props', {})
+    #     print("extracted:", extracted_props)
+    #     vis_text = extracted_props.get('vis_text')
+    #     print("vis_text:", vis_text)
+    #     print("check", vis_text in vocab.COL_PREP_QUALITY)
+    #     if vis_text and vis_text in vocab.COL_PREP_QUALITY:
+    #         print("Entering here??")
+    #         prep_quality_list.append(vis_text.lower())
+    #         worst_prep, best_prep = check_prep_quality(vis_text.lower(), worst_prep, best_prep)
+    #         print("1. worst, best", worst_prep, best_prep)
 
+    # REMOVED : as logic is changed from assuming the prep is inadequate unless proof that it's adequate to assumption that prep is good unless specified otherwise
     # Adequate if the BEST documented prep quality is adequate
-    adequate_prep = True if best_prep in vocab.COL_ADEQUATE_PREP else False
+    # adequate_prep = True if best_prep in vocab.COL_ADEQUATE_PREP else False
+    # adequate_prep = False if (worst_prep in  or bbps_left<2 or bbps_right<2 or bbps_transverse<2) else True
 
     return (worst_prep, best_prep, adequate_prep)
 
@@ -75,12 +131,34 @@ def extract_withdrawal_time(doc):
                     break
     withdrawal_span = report_section_filter.extract_section_span(doc, 'section_WITH_TIME')
     if withdrawal_span and len(withdrawal_span) > 0:
+       
+        text = withdrawal_span.text.lower().strip()
+         # NEW: Format 2b: "TOTAL WITHDRAWL TIME: 17 minutes"
+        minute_match = re.search(r'(\d+(?:\.\d+)?)\s*minute', text)
+        
+        if minute_match:
+
+            withdrawal_time_min = float(minute_match.group(1))
+            withdrawal_time_sec = None
+            # return (withdrawal_time_min, withdrawal_time_sec)
         # Format 2: "TOTAL WITHDRAWL TIME: 00:19:55"
-        matches = re.findall(r'\d+', withdrawal_span.text.strip())
-        if matches and len(matches) > 2:
-            time_vals = [float(i) for i in matches]
-            withdrawal_time_min = time_vals[1]
-            withdrawal_time_sec = time_vals[2]
+        else: 
+            matches = re.findall(r'\d+', text)
+            if matches and len(matches) > 2:
+                time_vals = [float(i) for i in matches]
+                withdrawal_time_min = time_vals[1]
+                withdrawal_time_sec = time_vals[2]
+            # if 10:00 instead of 00:10:00
+            elif matches and len(matches) == 2:
+                time_vals = [float(i) for i in matches]
+                withdrawal_time_min = time_vals[1]
+                withdrawal_time_sec = time_vals[0]
+            else:
+                withdrawal_time_min = None
+                withdrawal_time_sec = None
+
+
+
     return (withdrawal_time_min, withdrawal_time_sec)
 
 
@@ -104,7 +182,44 @@ def extract_cecal_intubation(doc):
 
     return cecal_int
 
+def extract_bbps(text):
 
+    if not text:
+        return {
+            'bbps_left': None,
+            'bbps_right': None,
+            'bbps_transverse': None,
+            'bbps_total': None,
+            'bbps_manual_review': False
+        }
+
+    def get_num(pattern, text):
+        m = re.search(pattern, text, flags=re.IGNORECASE)
+       
+        return int(m.group(1)) if m else None
+    bbps_left = get_num(r'left\s*:\s*(\d+)', text)
+    bbps_right = get_num(r'right\s*:\s*(\d+)', text)
+    bbps_transverse = get_num(r'transverse\s*:\s*(\d+)', text)
+    bbps_total = get_num(r'total\s*score\s*:\s*(\d+)', text)
+
+    bbps_values = [bbps_left, bbps_right, bbps_transverse]
+
+    # flag: partial presence → manual review
+    bbps_manual_review = (
+        any(v is not None for v in bbps_values) and
+        any(v is None for v in bbps_values)
+    )
+
+    out = {
+        'bbps_left': bbps_left,
+        'bbps_right': bbps_right,
+        'bbps_transverse': bbps_transverse,
+        'bbps_total': bbps_total,
+        'bbps_manual_review': bbps_manual_review
+    }
+
+   
+    return out
 # Extract values for procedure-level properties
 # Exam indications, Withdrawal time, Extent of exam, Visualization, Quality of Preparation
 @Language.component("extract_col_props")
@@ -115,21 +230,32 @@ def extract_col_props(doc):
     extent_span = report_section_filter.extract_section_span(doc, 'section_EXTENT')
     vis_span = report_section_filter.extract_section_span(doc, 'section_VIS')
 
+    vis_text = vis_span.text.lower().strip() if vis_span else None
+
+    # try BBPS from visualization section first, then whole doc
+    bbps_data = extract_bbps(doc.text)
+
     # Keys should match ColReport properties
     doc.user_data['extracted_props'] = {
         'indications_text': indications_span.text.strip() if indications_span else None,
         'withdrawal_text': withdrawal_span.text.lower().strip() if withdrawal_span else None,
         'extent_text': extent_span.text.lower().strip() if extent_span else None,
-        'vis_text': vis_span.text.lower().strip() if vis_span else None,
+        'vis_text': vis_text,
         'withdrawal_time_min': None,
         'withdrawal_time_sec': None,
         'prep_quality_worst': None,
         'prep_quality_best': None,
         'ad_prep_quality': None,
-        'cecal_int': None
+        'cecal_int': None,
+        'bbps_left': bbps_data['bbps_left'],
+        'bbps_right': bbps_data['bbps_right'],
+        'bbps_transverse': bbps_data['bbps_transverse'],
+        'bbps_total': bbps_data['bbps_total'],
+        'bbps_manual_review': bbps_data['bbps_manual_review'],
     }
 
     worst_prep, best_prep, adequate_prep = extract_prep_quality(doc)
+   
     withdrawal_min, withdrawal_sec = extract_withdrawal_time(doc)
 
     # derive properties from entity text
@@ -160,9 +286,12 @@ def set_review_flags(doc):
 # Returns True if extent satisfies criteria for "complete" colonoscopy (i.e. cecum reached)
 def check_exam_extent(doc):
     extent_text = doc.user_data['extracted_props'].get('extent_text')
+    keywords = ['cecum', 'ileum' , 'terminal ileum']
+
     if not extent_text:
         return None
-    elif 'cecum' in extent_text.lower():
+    # elif 'cecum' in extent_text.lower():
+    elif any(k in extent_text.lower() for k in keywords):
         return True
     else:
         return False
