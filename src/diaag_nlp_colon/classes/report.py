@@ -18,7 +18,8 @@ class ColReport(Report, AsDictMixin):
     def __init__(self, text='', pat_mrn=None, polyps=None, total_polyps=0, large_polyp=False, candidate_buckets=None,
                  adj_polyps=None, full_report_text=None, indications_text=None, extent_text=None, ad_prep_quality=None,
                  vis_text=None, withdrawal_text=None, withdrawal_time_min=None, withdrawal_time_sec=None,
-                 cecal_int=None, col_related=False, prep_quality_worst=None, prep_quality_best=None):
+                 cecal_int=None, col_related=False, prep_quality_worst=None, prep_quality_best=None, 
+                 bbps_left=None, bbps_right=None, bbps_transverse=None, bbps_total=None, bbps_manual_review=False):
         super().__init__(text, pat_mrn)
         self.polyps = polyps or []
         self.total_polyps = total_polyps
@@ -45,6 +46,11 @@ class ColReport(Report, AsDictMixin):
         self.withdrawal_time_min = withdrawal_time_min
         self.withdrawal_time_sec = withdrawal_time_sec
         self.cecal_int = cecal_int
+        self.bbps_left = bbps_left
+        self.bbps_right = bbps_right
+        self.bbps_transverse = bbps_transverse
+        self.bbps_total = bbps_total
+        self.bbps_manual_review = bbps_manual_review
 
     @property
     def candidate_bucket_list(self):
@@ -58,7 +64,11 @@ class ColReport(Report, AsDictMixin):
             'visualization': self.vis_text,
             'withdrawal_text': self.withdrawal_text,
             'prep_worst': self.prep_quality_worst,
-            'prep_best': self.prep_quality_best
+            'prep_best': self.prep_quality_best,
+            'bbps_left': self.bbps_left,
+            'bbps_right': self.bbps_right,
+            'bbps_transverse': self.bbps_transverse,
+            'bbps_total': self.bbps_total
         }
 
     @property
@@ -76,7 +86,12 @@ class ColReport(Report, AsDictMixin):
             'cecal_int_tf': True if self.cecal_int else False,
             'doc_withdrawal_time_tf': True if self.withdrawal_time_min is not None else False,
             'withdrawal_time_min': self.withdrawal_time_min,
-            'withdrawal_time_sec': self.withdrawal_time_sec
+            'withdrawal_time_sec': self.withdrawal_time_sec,
+            'bbps_left': self.bbps_left,
+            'bbps_right': self.bbps_right,
+            'bbps_transverse': self.bbps_transverse,
+            'bbps_total': self.bbps_total,
+            'doc_bbps_tf': True if self.bbps_total is not None else False
         }
 
     def regex_poor_prep(self):

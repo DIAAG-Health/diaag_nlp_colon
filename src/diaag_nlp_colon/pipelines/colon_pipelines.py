@@ -1,7 +1,7 @@
 from spacy.tokens import Doc, Span, Token
 from spacy import displacy
 import re
-
+import sys
 from diaag_nlp_colon.services import prop_getters
 from diaag_nlp_colon.classes.report import ColReport, PathReport
 from diaag_nlp_colon.config.colon import displacy_configs, col_patterns, path_patterns
