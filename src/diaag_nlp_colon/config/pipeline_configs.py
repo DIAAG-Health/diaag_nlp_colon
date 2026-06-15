@@ -1,4 +1,4 @@
 
 CURRENT_VERSIONS = {
-    'colon': '1.2'
+    'colon': '1.3.2'
 }
